@@ -64,13 +64,13 @@
         <a class="nav-link" href="{{ route('admin.galeri.index') }}">
           <i class="bi bi-images me-2"></i> Galeri
         </a>
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('admin.pasien.index') }}">
           <i class="bi bi-people-fill me-2"></i> Pasien
         </a>
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('admin.antrian.index') }}">
           <i class="bi bi-calendar2-check-fill me-2"></i> Antrian/Janji
         </a>
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('admin.obat.index') }}">
           <i class="bi bi-capsule-pill me-2"></i> Obat
         </a>
         <a class="nav-link" href="#">

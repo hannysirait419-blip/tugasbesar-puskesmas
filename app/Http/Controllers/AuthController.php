@@ -31,10 +31,11 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             
-            /** 
-             * PERBAIKAN: Diarahkan ke '/' (Halaman Utama/Beranda)
-             * agar user bisa melihat profil, galeri, dll dulu.
-             */
+            // Redirect berdasarkan role
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
+            
             return redirect()->intended('/'); 
         }
 

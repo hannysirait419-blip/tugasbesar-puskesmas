@@ -18,6 +18,9 @@ use App\Http\Controllers\Admin\BeritaController as AdminBeritaController;
 use App\Http\Controllers\Admin\GaleriController as AdminGaleriController;
 use App\Http\Controllers\Admin\PengumumanController as AdminPengumumanController;
 use App\Http\Controllers\Admin\ProfilWebController as AdminProfilWebController;
+use App\Http\Controllers\Admin\PasienController as AdminPasienController;
+use App\Http\Controllers\Admin\AntrianController as AdminAntrianController;
+use App\Http\Controllers\Admin\ObatController as AdminObatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,8 +84,15 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('berita', AdminBeritaController::class);
         Route::resource('galeri', AdminGaleriController::class);
+        Route::delete('/galeri/foto/{foto}', [AdminGaleriController::class, 'destroyFoto'])->name('galeri.foto.destroy');
         Route::resource('pengumuman', AdminPengumumanController::class);
         Route::get('/profil-website', [AdminProfilWebController::class, 'index'])->name('profilweb.index');
+        
+        // New Admin Routes
+        Route::resource('pasien', AdminPasienController::class);
+        Route::resource('antrian', AdminAntrianController::class);
+        Route::patch('/antrian/{antrian}/status', [AdminAntrianController::class, 'updateStatus'])->name('antrian.status');
+        Route::resource('obat', AdminObatController::class);
     });
 
     // Profile Settings (Bawaan)

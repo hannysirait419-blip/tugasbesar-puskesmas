@@ -15,23 +15,26 @@ class BeritaController extends Controller
         return view('admin.berita.index', compact('beritas'));
     }
 
+    public function create()
+    {
+        return view('admin.berita.create');
+    }
+
     public function store(Request $request)
     {
-        Berita::create($request->all());
-        return redirect()->back()->with('success', 'Berita ditambahkan');
-
         $request->validate([
-        'judul' => 'required',
-        'konten' => 'required',
-        'gambar' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
-    ]);
+            'judul' => 'required',
+            'konten' => 'required',
+            'gambar' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
+        ]);
 
-    $data = $request->only(['judul', 'konten']);
+        $data = $request->only(['judul', 'konten']);
 
-    if ($request->hasFile('gambar')) {
-        $data['gambar'] = $request->file('gambar')
-            ->store('berita', 'public');
-    }
+        if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')
+                ->store('berita', 'public');
+        }
+
         Berita::create($data);
 
         return redirect()
@@ -39,16 +42,47 @@ class BeritaController extends Controller
             ->with('success', 'Berita berhasil ditambahkan');
     }
 
-    public function destroy(Berita $berita)
+    public function edit(Berita $beritum)
     {
-        if ($berita->gambar && Storage::disk('public')->exists($berita->gambar)) {
-        Storage::disk('public')->delete($berita->gambar);
+        return view('admin.berita.edit', ['berita' => $beritum]);
+    }
+
+    public function update(Request $request, Berita $beritum)
+    {
+        $request->validate([
+            'judul' => 'required',
+            'konten' => 'required',
+            'gambar' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
+        ]);
+
+        $data = $request->only(['judul', 'konten']);
+
+        if ($request->hasFile('gambar')) {
+            // Delete old image
+            if ($beritum->gambar && Storage::disk('public')->exists($beritum->gambar)) {
+                Storage::disk('public')->delete($beritum->gambar);
+            }
+            $data['gambar'] = $request->file('gambar')
+                ->store('berita', 'public');
         }
 
-        $berita->delete();
+        $beritum->update($data);
 
         return redirect()
-        ->route('admin.berita.index')
-        ->with('success', 'Berita berhasil dihapus');
+            ->route('admin.berita.index')
+            ->with('success', 'Berita berhasil diperbarui');
+    }
+
+    public function destroy(Berita $beritum)
+    {
+        if ($beritum->gambar && Storage::disk('public')->exists($beritum->gambar)) {
+            Storage::disk('public')->delete($beritum->gambar);
+        }
+
+        $beritum->delete();
+
+        return redirect()
+            ->route('admin.berita.index')
+            ->with('success', 'Berita berhasil dihapus');
     }
 }

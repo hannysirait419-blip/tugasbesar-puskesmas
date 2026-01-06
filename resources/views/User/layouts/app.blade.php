@@ -74,13 +74,55 @@
 <nav class="navbar navbar-expand-lg fixed-top bg-white shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-bold text-success" href="/">Puskesmas</a>
-        <ul class="navbar-nav ms-auto gap-3">
-            <li class="nav-item"><a class="nav-link" href="/">Beranda</a></li>
-            <li class="nav-item"><a class="nav-link" href="/profil">Profil</a></li>
-            <li class="nav-item"><a class="nav-link" href="/berita">Berita</a></li>
-            <li class="nav-item"><a class="nav-link" href="/pengumuman">Pengumuman</a></li>
-            <li class="nav-item"><a class="nav-link" href="/galeri">Galeri</a></li>
-        </ul>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto gap-3">
+                <li class="nav-item"><a class="nav-link" href="/">Beranda</a></li>
+                <li class="nav-item"><a class="nav-link" href="/profil">Profil</a></li>
+                <li class="nav-item"><a class="nav-link" href="/berita">Berita</a></li>
+                <li class="nav-item"><a class="nav-link" href="/pengumuman">Pengumuman</a></li>
+                <li class="nav-item"><a class="nav-link" href="/galeri">Galeri</a></li>
+            </ul>
+            
+            @auth
+            <div class="dropdown ms-3">
+                <button class="btn btn-outline-success rounded-circle p-2" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 42px; height: 42px;">
+                    <i class="bi bi-person-fill"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow">
+                    <li class="px-3 py-2 border-bottom">
+                        <div class="fw-semibold">{{ auth()->user()->username }}</div>
+                        <small class="text-muted">{{ auth()->user()->role == 'admin' ? 'Administrator' : 'Warga' }}</small>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ route('dashboard') }}">
+                            <i class="bi bi-speedometer2 me-2"></i>Portal
+                        </a>
+                    </li>
+                    @if(auth()->user()->role == 'admin')
+                    <li>
+                        <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                            <i class="bi bi-gear me-2"></i>Admin Panel
+                        </a>
+                    </li>
+                    @endif
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item text-danger">
+                                <i class="bi bi-box-arrow-right me-2"></i>Keluar
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            @endauth
+        </div>
     </div>
 </nav>
 

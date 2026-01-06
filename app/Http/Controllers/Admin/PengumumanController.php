@@ -11,9 +11,8 @@ class PengumumanController extends Controller
 {
     public function index()
     {
-        return view('admin.pengumuman.index', [
-            'pengumuman' => Pengumuman::latest()->get()
-        ]);
+        $pengumumans = Pengumuman::latest()->paginate(10);
+        return view('admin.pengumuman.index', compact('pengumumans'));
     }
 
     public function create()
@@ -41,14 +40,42 @@ class PengumumanController extends Controller
             ->with('success', 'Pengumuman berhasil ditambahkan');
     }
 
+    public function edit(Pengumuman $pengumuman)
+    {
+        return view('admin.pengumuman.edit', compact('pengumuman'));
+    }
+
+    public function update(Request $request, Pengumuman $pengumuman)
+    {
+        $request->validate([
+            'judul' => 'required',
+            'isi' => 'required',
+            'file' => 'nullable|mimes:pdf,doc,docx,jpg,png|max:2048',
+        ]);
+
+        $data = $request->only(['judul', 'isi']);
+        
+        if ($request->hasFile('file')) {
+            // Delete old file
+            if ($pengumuman->file && Storage::disk('public')->exists($pengumuman->file)) {
+                Storage::disk('public')->delete($pengumuman->file);
+            }
+            $data['file'] = $request->file('file')
+                ->store('pengumuman', 'public');
+        }
+
+        $pengumuman->update($data);
+        return redirect()
+            ->route('admin.pengumuman.index')
+            ->with('success', 'Pengumuman berhasil diperbarui');
+    }
+
     public function destroy(Pengumuman $pengumuman)
     {
-        // 1️⃣ Hapus file lampiran (kalau ada)
         if ($pengumuman->file && Storage::disk('public')->exists($pengumuman->file)) {
             Storage::disk('public')->delete($pengumuman->file);
         }
 
-        // 2️⃣ Hapus data pengumuman
         $pengumuman->delete();
 
         return redirect()

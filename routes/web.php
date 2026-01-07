@@ -54,7 +54,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Halaman Publik Website (Hanya bisa dilihat setelah login)
     Route::get('/profil', [UserProfilController::class, 'index'])->name('profil');
-    Route::get('/berita', [UserBeritaController::class, 'index'])->name('berita.index');
+    Route::get('/berita', [App\Http\Controllers\User\BeritaController::class, 'index'])->name('berita.index');
     // Tambahkan Galeri & Pengumuman jika controllernya sudah ada:
     // Route::get('/galeri', [UserGaleriController::class, 'index'])->name('galeri.index');
     // Route::get('/pengumuman', [UserPengumumanController::class, 'index'])->name('pengumuman.index');

@@ -16,8 +16,8 @@ class GaleriController extends Controller
 
     public function show($id)
     {
-        $galeris = Galeri::with('fotos')->findOrFail($id);
+        $galeri = Galeri::with('fotos')->findOrFail($id);
 
-        return view('User.Galeri.show', compact('galeris'));
+        return view('User.Galeri.show', compact('galeri'));
     }
 }

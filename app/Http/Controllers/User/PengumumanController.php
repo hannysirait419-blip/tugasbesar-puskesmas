@@ -11,13 +11,13 @@ class PengumumanController extends Controller
     {
         $pengumuman = Pengumuman::latest()->paginate(10);
 
-        return view('user.pengumuman.index', compact('pengumuman'));
+        return view('User.pengumuman.index', compact('pengumuman'));
     }
 
     public function show($id)
     {
         $item = Pengumuman::findOrFail($id);
 
-        return view('user.pengumuman.show', compact('item'));
+        return view('User.pengumuman.show', compact('item'));
     }
 }

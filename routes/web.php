@@ -12,6 +12,8 @@ use App\Http\Controllers\AuthController;
 // USER controllers
 use App\Http\Controllers\User\ProfilController as UserProfilController;
 use App\Http\Controllers\User\BeritaController as UserBeritaController;
+use App\Http\Controllers\User\GaleriController as UserGaleriController;
+use App\Http\Controllers\User\PengumumanController as UserPengumumanController;
 
 // ADMIN controllers
 use App\Http\Controllers\Admin\BeritaController as AdminBeritaController;
@@ -63,7 +65,10 @@ Route::middleware(['auth'])->group(function () {
     // Tambahkan Galeri & Pengumuman jika controllernya sudah ada:
     // Route::get('/galeri', [UserGaleriController::class, 'index'])->name('galeri.index');
     // Route::get('/pengumuman', [UserPengumumanController::class, 'index'])->name('pengumuman.index');
-
+    Route::get('/galeri', [UserGaleriController::class, 'index'])->name('galeri.index');
+    Route::get('/galeri/{id}', [UserGaleriController::class, 'show'])->name('galeri.show');
+    Route::get('/pengumuman', [UserPengumumanController::class, 'index'])->name('pengumuman.index');
+    Route::get('/pengumuman/{id}', [UserPengumumanController::class, 'show'])->name('pengumuman.show');
     // --- LOGOUT ---
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

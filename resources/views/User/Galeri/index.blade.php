@@ -1,4 +1,4 @@
-@extends('user.layouts.app')
+@extends('User.layouts.app')
 @section('title','Galeri')
 
 @section('content')
@@ -14,7 +14,7 @@
 
             <div class="card-body text-center">
                 <h6 class="fw-bold">{{ $g->judul_kegiatan }}</h6>
-                <a href="{{ route('user.galeri.show',$g->id) }}"
+                <a href="{{ route('galeri.show',$g->id) }}"
                    class="btn btn-success btn-sm mt-2">
                     Lihat Galeri
                 </a>

@@ -34,6 +34,11 @@ Route::middleware('guest')->group(function () {
         return redirect()->route('login');
     });
 
+    // TAMBAHKAN KODE INI DI SINI UNTUK MENGHILANGKAN ERROR REDIRECT
+    Route::get('/berita-detail/{id}', function() {
+        return redirect()->route('berita.index');
+    })->name('berita.show');
+
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.proses');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
@@ -54,7 +59,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Halaman Publik Website (Hanya bisa dilihat setelah login)
     Route::get('/profil', [UserProfilController::class, 'index'])->name('profil');
-    Route::get('/berita', [UserBeritaController::class, 'index'])->name('berita.index');
+    Route::get('/berita', [App\Http\Controllers\User\BeritaController::class, 'index'])->name('berita.index');
     // Tambahkan Galeri & Pengumuman jika controllernya sudah ada:
     // Route::get('/galeri', [UserGaleriController::class, 'index'])->name('galeri.index');
     // Route::get('/pengumuman', [UserPengumumanController::class, 'index'])->name('pengumuman.index');

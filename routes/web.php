@@ -34,6 +34,11 @@ Route::middleware('guest')->group(function () {
         return redirect()->route('login');
     });
 
+    // TAMBAHKAN KODE INI DI SINI UNTUK MENGHILANGKAN ERROR REDIRECT
+    Route::get('/berita-detail/{id}', function() {
+        return redirect()->route('berita.index');
+    })->name('berita.show');
+
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.proses');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');

@@ -19,7 +19,7 @@
     <div class="container">
         <div class="row align-items-center g-4">
             <div class="col-md-6">
-                <img src="{{ asset('images/puskesmas.jpg') }}"
+                <img src="{{ URL::asset('adminlte/dist/img/Logo_Puskesmas.jpg') }}"
                      class="img-fluid rounded-4 shadow"
                      alt="Puskesmas">
             </div>
